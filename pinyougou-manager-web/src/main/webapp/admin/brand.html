@@ -57,9 +57,13 @@
 				)
             }
 
-            //添加品牌
-			$scope.add = function () {
-                $http.post('../brand/add.do', $scope.entity).success(function (response) {
+            //保存品牌
+			$scope.save = function () {
+			    var methodName = 'add';
+				if ($scope.entity.id != null) {
+				    methodName = 'update';
+				}
+                $http.post('../brand/' + methodName + '.do', $scope.entity).success(function (response) {
 					if (response.success) {
 					    // 添加成功刷新列表
                         $scope.reloadList();
@@ -163,7 +167,7 @@
 			 </table>				
 		</div>
 		<div class="modal-footer">						
-			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="add()">保存</button>
+			<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="save()">保存</button>
 			<button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
 		</div>
 	  </div>
