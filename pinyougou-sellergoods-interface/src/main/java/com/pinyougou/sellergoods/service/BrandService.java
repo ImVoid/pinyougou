@@ -24,6 +24,15 @@ public interface BrandService {
 	PageResult findPage(int pageNum, int pageSize);
 
 	/**
+	 * 品牌分页
+	 * @param brand 包含查询条件的对象
+	 * @param pageNum 当前页码
+	 * @param pageSize 页记录数
+	 * @return
+	 */
+	PageResult findPage(TbBrand brand, int pageNum, int pageSize);
+
+	/**
 	 * 品牌添加
 	 * @param brand
 	 */

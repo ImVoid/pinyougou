@@ -27,9 +27,15 @@ public class BrandController {
 		return brandService.findAll();
 	}
 
-	@RequestMapping("/findPage")
+	//ODO 作废，使用search替代
+	/*@RequestMapping("/findPage")
 	public PageResult findPage(int page, int size) {
 		return brandService.findPage(page, size);
+	}*/
+
+	@RequestMapping("/search")
+	public PageResult search(@RequestBody TbBrand brand, int page, int size) {
+		return brandService.findPage(brand, page, size);
 	}
 
 	@RequestMapping("/add")

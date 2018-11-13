@@ -5,8 +5,10 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.pinyougou.mapper.TbBrandMapper;
 import com.pinyougou.pojo.TbBrand;
+import com.pinyougou.pojo.TbBrandExample;
 import com.pinyougou.sellergoods.service.BrandService;
 import entity.PageResult;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -30,6 +32,23 @@ public class BrandServiceImpl implements BrandService {
 	public PageResult findPage(int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
 		Page<TbBrand> page = (Page<TbBrand>) brandMapper.selectByExample(null);
+		return new PageResult(page.getTotal(), page.getResult());
+	}
+
+	@Override
+	public PageResult findPage(TbBrand brand, int pageNum, int pageSize) {
+		PageHelper.startPage(pageNum, pageSize);
+		TbBrandExample example = new TbBrandExample();
+		if (brand != null) {
+			TbBrandExample.Criteria criteria = example.createCriteria();
+			if (StringUtils.isNotBlank(brand.getName())) {
+				criteria.andNameLike("%" + brand.getName() + "%");
+			}
+			if (StringUtils.isNotBlank(brand.getFirstChar())) {
+				criteria.andFirstCharLike("%" + brand.getFirstChar() + "%");
+			}
+		}
+		Page<TbBrand> page = (Page<TbBrand>) brandMapper.selectByExample(example);
 		return new PageResult(page.getTotal(), page.getResult());
 	}
 
