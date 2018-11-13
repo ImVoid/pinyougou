@@ -27,7 +27,7 @@ public class BrandController {
 		return brandService.findAll();
 	}
 
-	//ODO 作废，使用search替代
+	//TODO 作废，使用search替代
 	/*@RequestMapping("/findPage")
 	public PageResult findPage(int page, int size) {
 		return brandService.findPage(page, size);
