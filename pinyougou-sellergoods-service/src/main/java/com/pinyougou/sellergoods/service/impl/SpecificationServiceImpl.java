@@ -3,6 +3,7 @@ import java.util.List;
 
 import com.pinyougou.mapper.TbSpecificationOptionMapper;
 import com.pinyougou.pojo.TbSpecificationOption;
+import com.pinyougou.pojo.TbSpecificationOptionExample;
 import com.pinyougou.pojogroup.Specification;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
@@ -70,8 +71,20 @@ public class SpecificationServiceImpl implements SpecificationService {
 	 * 修改
 	 */
 	@Override
-	public void update(TbSpecification specification){
-		specificationMapper.updateByPrimaryKey(specification);
+	public void update(Specification specification){
+		//先更新规格名称
+		TbSpecification tbSpecification = specification.getSpecification();
+		specificationMapper.updateByPrimaryKey(tbSpecification);
+
+		//先删除规格选项，再从新插入达到更新目的
+		TbSpecificationOptionExample example = new TbSpecificationOptionExample();
+		example.createCriteria().andSpecIdEqualTo(tbSpecification.getId());
+		specificationOptionMapper.deleteByExample(example);
+		List<TbSpecificationOption> tbSpecificationOptionList = specification.getSpecificationOptionList();
+		for (TbSpecificationOption option : tbSpecificationOptionList) {
+			option.setSpecId(tbSpecification.getId());
+			specificationOptionMapper.insert(option);
+		}
 	}	
 	
 	/**
@@ -80,8 +93,18 @@ public class SpecificationServiceImpl implements SpecificationService {
 	 * @return
 	 */
 	@Override
-	public TbSpecification findOne(Long id){
-		return specificationMapper.selectByPrimaryKey(id);
+	public Specification findOne(Long id){
+		Specification specification = new Specification();
+		//查询并设置规格
+		TbSpecification tbSpecification = specificationMapper.selectByPrimaryKey(id);
+		specification.setSpecification(tbSpecification);
+		//查询并设置规格参数
+		TbSpecificationOptionExample example = new TbSpecificationOptionExample();
+		example.createCriteria().andSpecIdEqualTo(id);
+		List<TbSpecificationOption> tbSpecificationOptionList = specificationOptionMapper.selectByExample(example);
+		specification.setSpecificationOptionList(tbSpecificationOptionList);
+
+		return specification;
 	}
 
 	/**
