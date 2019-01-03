@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author liuweijian
@@ -72,5 +73,10 @@ public class BrandServiceImpl implements BrandService {
 		for (Long id : ids) {
 			brandMapper.deleteByPrimaryKey(id);
 		}
+	}
+
+	@Override
+	public List<Map> selectOptionList() {
+		return brandMapper.selectOptionList();
 	}
 }
