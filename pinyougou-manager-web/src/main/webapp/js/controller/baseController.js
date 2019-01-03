@@ -34,4 +34,18 @@ app.controller('baseController', function ($scope) {
         }
     }
 
+    //json提取
+    $scope.jsonToString = function (jsonString, key) {
+        var json = JSON.parse(jsonString);
+        var value = "";
+        for (i = 0; i < json.length; i++) {
+            if (i > 0) {
+                value += ",";
+            }
+            value += json[i][key];
+        }
+
+        return value;
+    }
+
 })
