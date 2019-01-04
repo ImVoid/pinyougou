@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!--不需要拦截的资源-->
+    <http pattern="/*.html" security="none" />
+    <http pattern="/css/**" security="none" />
+    <http pattern="/img/**" security="none" />
+    <http pattern="/js/**" security="none" />
+    <http pattern="/plugins/**" security="none" />
+    <http pattern="/seller/add.do" security="none" />
+
+    <!--use-expressions：是否启用SEPL表达式，默认true-->
+    <http use-expressions="false">
+        <!--对应角色才能访问拦截资源-->
+        <intercept-url pattern="/**" access="ROLE_SELLER " />
+        <!--开启表单登录功能-->
+        <form-login login-page="/shoplogin.html" default-target-url="/admin/index.html" always-use-default-target="true" authentication-failure-url="/shoplogin.html" />
+        <csrf disabled="true"/>
+        <headers>
+            <frame-options policy="SAMEORIGIN" />
+        </headers>
+        <logout />
+    </http>
+
+    <!--认证管理器-->
+    <authentication-manager>
+        <authentication-provider user-service-ref="userDetailsService"/>
+    </authentication-manager>
+
+    <beans:bean id="userDetailsService" class="com.pinyougou.shop.service.UserDetailsServiceImpl" />
+
+</beans:beans>
