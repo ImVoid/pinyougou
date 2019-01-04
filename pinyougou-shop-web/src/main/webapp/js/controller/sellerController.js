@@ -50,7 +50,19 @@ app.controller('sellerController' ,function($scope,$controller   ,sellerService)
 			}		
 		);				
 	}
-	
+
+	//新增
+	$scope.add=function() {
+        sellerService.add( $scope.entity  ).success(
+            function(response){
+                if(response.success){
+                    location.href="shoplogin.html"
+                }else{
+                    alert(response.message);
+                }
+            }
+        );
+	}
 	 
 	//批量删除 
 	$scope.dele=function(){			
