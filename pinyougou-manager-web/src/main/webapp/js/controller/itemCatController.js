@@ -83,4 +83,27 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 			$scope.list=response;
         })
 	}
+
+	//面包屑导航默认等级
+	$scope.grade=1
+
+	$scope.setGrade=function (grade) {
+		$scope.grade = grade;
+    }
+
+    //面包屑导航逻辑
+	$scope.selectList=function (p_entity) {
+		if ($scope.grade == 1) {
+			$scope.entity_1 = null;
+			$scope.entity_2 = null;
+            $scope.findByParentId(p_entity.id);
+		} else if ($scope.grade == 2) {
+            $scope.entity_1 = p_entity;
+            $scope.entity_2 = null;
+            $scope.findByParentId(p_entity.id);
+		} else if ($scope.grade == 3) {
+            $scope.entity_2 = p_entity;
+            $scope.findByParentId(p_entity.id);
+		}
+    }
 });	
