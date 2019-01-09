@@ -26,7 +26,14 @@ app.controller('itemCatController' ,function($scope,$controller  ,itemCatService
 	$scope.findOne=function(id){				
 		itemCatService.findOne(id).success(
 			function(response){
-				$scope.entity= response;					
+				$scope.entity = response
+				typeTemplateService.findAll().success(function (rs) {
+                    $scope.options = eval(rs);
+                })
+                typeTemplateService.findOne($scope.entity['typeId']).success(function (rs) {
+                    obj = eval(rs);
+                    $scope.selectTypeId = {"id": obj['id'], "text": obj['name']};
+                })
 			}
 		);				
 	}
@@ -111,6 +118,7 @@ app.controller('itemCatController' ,function($scope,$controller  ,itemCatService
 		}
     }
 
+    //类型模板select2选项列表
     $scope.options = {'data':[]};
     $scope.selectOptionList=function () {
     	typeTemplateService.selectOptionList().success(function (response) {
