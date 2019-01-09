@@ -86,6 +86,7 @@ app.controller('itemCatController' ,function($scope,$controller  ,itemCatService
 
     //当前分类页面parentId
     $scope.parentId=0;
+	$scope.lastEntity={'id': 0}
 
     // 根据上级ID查询商品分类
     $scope.findByParentId=function(parentId) {
@@ -116,6 +117,7 @@ app.controller('itemCatController' ,function($scope,$controller  ,itemCatService
             $scope.entity_2 = p_entity;
             $scope.findByParentId(p_entity.id);
 		}
+        $scope.lastEntity = p_entity;
     }
 
     //类型模板select2选项列表

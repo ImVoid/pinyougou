@@ -48,10 +48,10 @@
         <li>
             <a href="#" ng-click="setGrade(1); selectList({id:0})">顶级分类列表</a>
         </li>
-        <li>
+        <li ng-show="entity_1!=null">
             <a href="#" ng-click="setGrade(2); selectList(entity_1)">{{entity_1.name}}</a>
         </li>
-        <li>
+        <li ng-show="entity_2!=null">
             <a href="#" ng-click="setGrade(3); selectList(entity_2)">{{entity_2.name}}</a>
         </li>
     </ol>
@@ -66,8 +66,8 @@
                     <button type="button" class="btn btn-default" title="新建" data-toggle="modal"
                             data-target="#editModal"><i class="fa fa-file-o"></i> 新建
                     </button>
-                    <button type="button" class="btn btn-default" title="删除"><i class="fa fa-trash-o"></i> 删除</button>
-                    <button type="button" class="btn btn-default" title="刷新"><i class="fa fa-check"></i> 刷新</button>
+                    <button type="button" class="btn btn-default" title="删除" ng-click="dele()"><i class="fa fa-trash-o"></i> 删除</button>
+                    <button type="button" class="btn btn-default" title="刷新" ng-click="selectList(lastEntity)"><i class="fa fa-check"></i> 刷新</button>
 
                 </div>
             </div>
@@ -89,7 +89,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="entity in list">
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" ng-click="updateSelection($event, entity.id)"></td>
                 <td>{{entity.id}}</td>
                 <td>{{entity.name}}</td>
                 <td>{{entity.typeId}}</td>
