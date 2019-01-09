@@ -33,11 +33,14 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService){
 	
 	//保存 
 	$scope.add=function(){
+        $scope.entity.goodsDesc.introduction = editor.html();
         goodsService.add( $scope.entity  ).success(
 			function(response){
 				if(response.success){
                     alert("新增成功");
                     $scope.entity = {};
+                    //清空富文本编辑器
+                    editor.html("");
 				}else{
 					alert(response.message);
 				}
