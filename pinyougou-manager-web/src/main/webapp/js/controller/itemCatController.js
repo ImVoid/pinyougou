@@ -1,5 +1,5 @@
  //控制层 
-app.controller('itemCatController' ,function($scope,$controller   ,itemCatService){	
+app.controller('itemCatController' ,function($scope,$controller  ,itemCatService, typeTemplateService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -37,13 +37,13 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 		if($scope.entity.id!=null){//如果有ID
 			serviceObject=itemCatService.update( $scope.entity ); //修改  
 		}else{
+			$scope.entity.parentId=$scope.parentId;
 			serviceObject=itemCatService.add( $scope.entity  );//增加 
 		}				
 		serviceObject.success(
 			function(response){
 				if(response.success){
-					//重新查询 
-		        	$scope.reloadList();//重新加载
+                    $scope.findByParentId($scope.parentId);
 				}else{
 					alert(response.message);
 				}
@@ -77,8 +77,12 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
 		);
 	}
 
+    //当前分类页面parentId
+    $scope.parentId=0;
+
     // 根据上级ID查询商品分类
     $scope.findByParentId=function(parentId) {
+        $scope.parentId=parentId;
 		itemCatService.findByParentId(parentId).success(function (response) {
 			$scope.list=response;
         })
@@ -106,4 +110,12 @@ app.controller('itemCatController' ,function($scope,$controller   ,itemCatServic
             $scope.findByParentId(p_entity.id);
 		}
     }
+
+    $scope.options = {'data':[]};
+    $scope.selectOptionList=function () {
+    	typeTemplateService.selectOptionList().success(function (response) {
+            $scope.options={'data': response};
+        })
+    }
+
 });	

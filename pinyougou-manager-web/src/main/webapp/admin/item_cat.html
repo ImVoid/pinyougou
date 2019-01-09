@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="../css/style.css">
     <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../plugins/select2/select2.css"/>
+    <link rel="stylesheet" href="../plugins/select2/select2-bootstrap.css"/>
+    <script src="../plugins/select2/select2.min.js" type="text/javascript"></script>
 
     <!--导入AngularJS-->
     <script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
@@ -22,13 +25,17 @@
 
     <script type="text/javascript" src="../js/base_pagination.js"></script>
     <script type="text/javascript" src="../js/service/itemCatService.js"></script>
+    <script type="text/javascript" src="../js/service/typeTemplateService.js"></script>
     <script type="text/javascript" src="../js/controller/baseController.js"></script>
     <script type="text/javascript" src="../js/controller/itemCatController.js"></script>
+
+    <!--导入select2整合模块-->
+    <script type="text/javascript" src="../js/angular-select2.js"></script>
 
 </head>
 
 <body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="itemCatController"
-      ng-init="findByParentId(0)">
+      ng-init="findByParentId(0); selectOptionList()">
 <!-- .box-body -->
 
 <div class="box-header with-border">
@@ -88,7 +95,8 @@
                 <td>{{entity.typeId}}</td>
                 <td class="text-center">
                     <span ng-if="grade!=3">
-                        <button type="button" class="btn bg-olive btn-xs" ng-click="setGrade(grade+1); selectList(entity)">查询下级</button>
+                        <button type="button" class="btn bg-olive btn-xs"
+                                ng-click="setGrade(grade+1); selectList(entity)">查询下级</button>
                     </span>
                     <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal">修改
                     </button>
@@ -119,17 +127,19 @@
                     <tr>
                         <td>上级商品分类</td>
                         <td>
-                            珠宝 >> 银饰
+                            <span ng-if="entity_1 != null">{{entity_1.name}}</span>
+                            <span ng-if="entity_2 != null">>> {{entity_2.name}}</span>
                         </td>
                     </tr>
                     <tr>
                         <td>商品分类名称</td>
-                        <td><input class="form-control" placeholder="商品分类名称"></td>
+                        <td><input class="form-control" placeholder="商品分类名称" ng-model="entity.name"></td>
                     </tr>
                     <tr>
                         <td>类型模板</td>
                         <td>
-                            <input select2 config="options['type_template']" placeholder="商品类型模板" class="form-control"
+                            <input select2 config="options" placeholder="商品类型模板"
+                                   select2-model="selectTypeId" class="form-control"
                                    type="text"/>
                         </td>
                     </tr>
@@ -137,7 +147,7 @@
 
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true">保存</button>
+                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="entity.typeId=selectTypeId['id']; save()">保存</button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>

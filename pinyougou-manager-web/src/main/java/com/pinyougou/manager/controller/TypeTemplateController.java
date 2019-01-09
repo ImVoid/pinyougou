@@ -1,9 +1,12 @@
 package com.pinyougou.manager.controller;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.pojo.TbTypeTemplate;
@@ -110,6 +113,16 @@ public class TypeTemplateController {
 	@RequestMapping("/search")
 	public PageResult search(@RequestBody TbTypeTemplate typeTemplate, int page, int rows  ){
 		return typeTemplateService.findPage(typeTemplate, page, rows);		
+	}
+
+	/**
+	 * 查询所有typeId,用于前端select2选项框
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/selectOptionList")
+	public List<Map> selectOptionList() {
+		return typeTemplateService.selectOptionList();
 	}
 	
 }
