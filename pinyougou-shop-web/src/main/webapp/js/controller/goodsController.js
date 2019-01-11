@@ -83,5 +83,11 @@ app.controller('goodsController' ,function($scope,$controller ,goodsService, upl
                 alert(response.message);
 			}
         })
-    } 
+    }
+
+    $scope.entity={goods: {}, goodsDesc: {itemImages: []}}
+    //将当前上传文件添加到图片列表
+    $scope.addImageEntity = function () {
+        $scope.entity.goodsDesc.itemImages.push($scope.image_entity);
+    }
 });	
