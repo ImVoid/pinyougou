@@ -141,7 +141,8 @@
                     <div class="row data-type">
                         <!-- 颜色图片 -->
                         <div class="btn-group">
-                            <button ng-click="image_entity={}" type="button" class="btn btn-default" title="新建" data-target="#uploadModal"
+                            <button ng-click="image_entity={}" type="button" class="btn btn-default" title="新建"
+                                    data-target="#uploadModal"
                                     data-toggle="modal"><i class="fa fa-file-o"></i> 新建
                             </button>
 
@@ -161,8 +162,8 @@
                                     <img alt="" src="{{pojo.url}}" width="100px" height="100px">
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-default" title="删除"><i
-                                            class="fa fa-trash-o"></i> 删除
+                                    <button ng-click="removeImageEntity($index)" type="button" class="btn btn-default"
+                                            title="删除"><i class="fa fa-trash-o"></i> 删除
                                     </button>
                                 </td>
                             </tr>
@@ -396,7 +397,8 @@
 
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="addImageEntity()">保存</button>
+                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="addImageEntity()">保存
+                </button>
                 <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
             </div>
         </div>

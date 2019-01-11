@@ -90,4 +90,8 @@ app.controller('goodsController' ,function($scope,$controller ,goodsService, upl
     $scope.addImageEntity = function () {
         $scope.entity.goodsDesc.itemImages.push($scope.image_entity);
     }
+
+    $scope.removeImageEntity = function (index) {
+        $scope.entity.goodsDesc.itemImages.splice(index, 1);
+    }
 });	
