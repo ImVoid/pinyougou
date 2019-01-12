@@ -34,7 +34,7 @@
 
 </head>
 
-<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="goodsController">
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="goodsController" ng-init="selectItemCat1List()">
 
 <!-- 正文区域 -->
 <section class="content">
@@ -73,14 +73,13 @@
                             <table>
                                 <tr>
                                     <td>
-                                        <select class="form-control">
-                                        </select>
+                                        <select ng-model="entity.goods.category1Id" ng-options="item.id as item.name for item in itemCat1List" class="form-control"></select>
                                     </td>
                                     <td>
-                                        <select class="form-control select-sm"></select>
+                                        <select ng-model="entity.goods.category2Id" ng-options="item.id as item.name for item in itemCat2List" class="form-control select-sm"></select>
                                     </td>
                                     <td>
-                                        <select class="form-control select-sm"></select>
+                                        <select ng-model="entity.goods.category3Id" ng-options="item.id as item.name for item in itemCat3List" class="form-control select-sm"></select>
                                     </td>
                                     <td>
                                         模板ID:19

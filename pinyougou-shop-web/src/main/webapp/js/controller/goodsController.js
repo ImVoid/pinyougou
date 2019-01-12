@@ -91,7 +91,29 @@ app.controller('goodsController' ,function($scope,$controller ,goodsService, upl
         $scope.entity.goodsDesc.itemImages.push($scope.image_entity);
     }
 
+    //在图片列表中删除
     $scope.removeImageEntity = function (index) {
         $scope.entity.goodsDesc.itemImages.splice(index, 1);
     }
-});	
+
+    // 展示一级分类列表
+    $scope.selectItemCat1List = function () {
+		itemCatService.findByParentId(0).success(function (response) {
+			$scope.itemCat1List = response;
+        })
+    }
+
+    // 展示二级分类列表
+	$scope.$watch('entity.goods.category1Id', function (newValue, oldValue) {
+        itemCatService.findByParentId(newValue).success(function (response) {
+            $scope.itemCat2List = response;
+        })
+    })
+
+    // 展示三级分类列表
+	$scope.$watch('entity.goods.category2Id', function (newValue, oldValue) {
+        itemCatService.findByParentId(newValue).success(function (response) {
+            $scope.itemCat3List = response;
+        })
+    })
+});
