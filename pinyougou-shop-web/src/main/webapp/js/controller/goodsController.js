@@ -124,12 +124,16 @@ app.controller('goodsController' ,function($scope,$controller ,goodsService, upl
         })
     })
 
-	// 读取模板ID,列出品牌选项和扩展属性
+	// 读取模板ID,列出品牌选项、扩展属性、规格列表
 	$scope.$watch('entity.goods.typeTemplateId', function (newValue, oldValue) {
 		typeTemplateService.findOne(newValue).success(function (response) {
 			$scope.typeTemplate = response;
 			$scope.typeTemplate.brandIds = JSON.parse($scope.typeTemplate.brandIds);
 			$scope.entity.goodsDesc.customAttributeItems = JSON.parse($scope.typeTemplate.customAttributeItems)
+        })
+
+		typeTemplateService.findSpecList(newValue).success(function (response) {
+			$scope.specList = response;
         })
     })
 });

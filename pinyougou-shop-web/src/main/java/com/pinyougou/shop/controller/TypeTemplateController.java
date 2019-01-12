@@ -123,5 +123,11 @@ public class TypeTemplateController {
 	public List<Map> selectOptionList() {
 		return typeTemplateService.selectOptionList();
 	}
-	
+
+	@ResponseBody
+	@RequestMapping("/findSpecList")
+	public List<Map> findSpecList(Long id) {
+		List<Map> list = typeTemplateService.findSpecList(id);
+		return list;
+	}
 }
