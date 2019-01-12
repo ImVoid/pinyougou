@@ -1,5 +1,5 @@
  //控制层 
-app.controller('goodsController' ,function($scope,$controller ,goodsService, uploadService, itemCatService){
+app.controller('goodsController' ,function($scope,$controller ,goodsService, uploadService, itemCatService, typeTemplateService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -121,6 +121,14 @@ app.controller('goodsController' ,function($scope,$controller ,goodsService, upl
     $scope.$watch('entity.goods.category3Id', function (newValue, oldValue) {
         itemCatService.findOne(newValue).success(function (response) {
             $scope.entity.goods.typeTemplateId = response.typeId;
+        })
+    })
+
+	// 读取模板ID,列出品牌选项
+	$scope.$watch('entity.goods.typeTemplateId', function (newValue, oldValue) {
+		typeTemplateService.findOne(newValue).success(function (response) {
+			$scope.typeTemplate = response;
+			$scope.typeTemplate.brandIds = JSON.parse($scope.typeTemplate.brandIds);
         })
     })
 });
