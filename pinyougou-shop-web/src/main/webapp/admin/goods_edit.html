@@ -82,7 +82,9 @@
                                         <select ng-model="entity.goods.category3Id" ng-options="item.id as item.name for item in itemCat3List" class="form-control select-sm"></select>
                                     </td>
                                     <td>
-                                        模板ID:19
+                                        <span ng-show="entity.goods.typeTemplateId != null">
+                                            模板ID:{{entity.goods.typeTemplateId}}
+                                        </span>
                                     </td>
                                 </tr>
                             </table>

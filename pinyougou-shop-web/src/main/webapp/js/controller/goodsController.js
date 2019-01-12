@@ -116,4 +116,11 @@ app.controller('goodsController' ,function($scope,$controller ,goodsService, upl
             $scope.itemCat3List = response;
         })
     })
+
+    // 展示三级分类关联的模板ID
+    $scope.$watch('entity.goods.category3Id', function (newValue, oldValue) {
+        itemCatService.findOne(newValue).success(function (response) {
+            $scope.entity.goods.typeTemplateId = response.typeId;
+        })
+    })
 });
