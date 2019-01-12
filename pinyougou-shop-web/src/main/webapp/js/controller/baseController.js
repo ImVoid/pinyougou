@@ -48,4 +48,13 @@ app.controller('baseController', function ($scope) {
         return value;
     }
 
+    // 遍历list发现符合条件的值返回
+    $scope.searchObjectByKey = function (list, key, keyValue) {
+        for (i = 0; i < list.length; i++) {
+            if (list[i][key] == keyValue) {
+                return list[i];
+            }
+        }
+        return null;
+    }
 })

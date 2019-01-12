@@ -200,19 +200,16 @@
                     <p>
 
                     <div>
-
                         <div class="row data-type">
                             <div ng-repeat="pojo in specList">
                                 <div class="col-md-2 title">{{pojo.text}}</div>
                                 <div class="col-md-10 data">
                                     <span ng-repeat="option in pojo.options">
-                                        <input type="checkbox">{{option.optionName}}
+                                        <input ng-click="updateSpecAttribute($event, pojo.text, option.optionName)" type="checkbox">{{option.optionName}}
                                     </span>
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="row data-type">
                             <table class="table table-bordered table-striped table-hover dataTable">
                                 <thead>

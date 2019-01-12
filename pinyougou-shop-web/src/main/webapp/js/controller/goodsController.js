@@ -47,8 +47,7 @@ app.controller('goodsController' ,function($scope,$controller ,goodsService, upl
 			}		
 		);				
 	}
-	
-	 
+
 	//批量删除 
 	$scope.dele=function(){			
 		//获取选中的复选框			
@@ -85,7 +84,7 @@ app.controller('goodsController' ,function($scope,$controller ,goodsService, upl
         })
     }
 
-    $scope.entity={goods: {}, goodsDesc: {itemImages: []}}
+    $scope.entity={goods: {}, goodsDesc: {itemImages: [], specificationItems: []}}
     //将当前上传文件添加到图片列表
     $scope.addImageEntity = function () {
         $scope.entity.goodsDesc.itemImages.push($scope.image_entity);
@@ -136,4 +135,25 @@ app.controller('goodsController' ,function($scope,$controller ,goodsService, upl
 			$scope.specList = response;
         })
     })
+
+	$scope.updateSpecAttribute = function ($event, name, value) {
+        var object = $scope.searchObjectByKey($scope.entity.goodsDesc.specificationItems, 'attributeName', name);
+        //更新
+		if (object != null) {
+			//追加更新
+			if ($event.target.checked) {
+                object.attributeValue.push(value);
+			} else {
+				//删除
+                object.attributeValue.splice(object.attributeValue.indexOf(value), 1);
+                // 全部清除
+				if (object.attributeValue.length == 0) {
+                    $scope.entity.goodsDesc.specificationItems.splice($scope.entity.goodsDesc.specificationItems.indexOf(object), 1);
+				}
+			}
+		} else {
+			//添加
+            $scope.entity.goodsDesc.specificationItems.push({'attributeName': name, 'attributeValue': [value]});
+		}
+    }
 });
