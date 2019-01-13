@@ -84,7 +84,7 @@ app.controller('goodsController' ,function($scope,$controller ,goodsService, upl
         })
     }
 
-    $scope.entity={goods: {}, goodsDesc: {itemImages: [], specificationItems: []}}
+    $scope.entity={goods: {}, goodsDesc: {itemImages: [], specificationItems: []}, itemList: []}
     //将当前上传文件添加到图片列表
     $scope.addImageEntity = function () {
         $scope.entity.goodsDesc.itemImages.push($scope.image_entity);
@@ -156,4 +156,34 @@ app.controller('goodsController' ,function($scope,$controller ,goodsService, upl
             $scope.entity.goodsDesc.specificationItems.push({'attributeName': name, 'attributeValue': [value]});
 		}
     }
+
+    //创建sku列表
+    $scope.createItemList = function () {
+		// 定义初始sku列表
+		$scope.entity.itemList = [{spec: {}, price: 0, num: 0, status: '0', idDefault: '0'}]
+		//获取规格
+		var specItems = $scope.entity.goodsDesc.specificationItems;
+		// 循环每种规格，添加行列
+		for (var i = 0; i < specItems.length; i++) {
+            $scope.entity.itemList = addColume($scope.entity.itemList, specItems[i].attributeName, specItems[i].attributeValue);
+		}
+    }
+
+    addColume = function(itemList, attributeName, attributeValues) {
+        var newList = [];
+		//循环每一行
+		for (var i = 0; i < itemList.length; i++) {
+			//记录未修改前的行
+            var oldRow = itemList[i];
+            // 添加同规格的不同属性值
+			for (var j = 0; j < attributeValues.length; j++) {
+				// 深拷贝
+                var newRow = JSON.parse(JSON.stringify(oldRow));
+                newRow.spec[attributeName] = attributeValues[j];
+                //新增行
+                newList.push(newRow);
+			}
+		}
+		return newList;
+	}
 });
