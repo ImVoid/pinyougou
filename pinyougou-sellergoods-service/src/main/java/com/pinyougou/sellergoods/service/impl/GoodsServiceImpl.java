@@ -1,16 +1,16 @@
 package com.pinyougou.sellergoods.service.impl;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
-import com.pinyougou.mapper.TbGoodsDescMapper;
-import com.pinyougou.pojo.TbGoodsDesc;
+import com.alibaba.fastjson.JSON;
+import com.pinyougou.mapper.*;
+import com.pinyougou.pojo.*;
 import com.pinyougou.pojogroup.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.pinyougou.mapper.TbGoodsMapper;
-import com.pinyougou.pojo.TbGoods;
-import com.pinyougou.pojo.TbGoodsExample;
 import com.pinyougou.pojo.TbGoodsExample.Criteria;
 import com.pinyougou.sellergoods.service.GoodsService;
 
@@ -29,6 +29,15 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Autowired
 	private TbGoodsDescMapper goodsDescMapper;
+
+	@Autowired
+	private TbItemMapper itemMapper;
+
+	@Autowired
+	private TbSellerMapper sellerMapper;
+
+	@Autowired
+	private TbItemCatMapper itemCatMapper;
 	
 	/**
 	 * 查询全部
@@ -59,6 +68,63 @@ public class GoodsServiceImpl implements GoodsService {
 		TbGoodsDesc goodsDesc = goods.getGoodsDesc();
 		goodsDesc.setGoodsId(gd.getId());
 		goodsDescMapper.insert(goodsDesc);
+
+		//多个SKU
+		if ("1".equals(goods.getGoods().getIsEnableSpec())) {
+			for (TbItem item : goods.getItemList()) {
+				setItemValue(item, goods);
+				itemMapper.insert(item);
+			}
+		} else {
+			//单个SKU
+			if (goods.getItemList().size() > 0) {
+				TbItem item = goods.getItemList().get(0);
+				setItemValue(item, goods);
+				item.setIsDefault("1");
+				itemMapper.insert(item);
+			}
+		}
+	}
+
+	private void setItemValue(TbItem item, Goods goods) {
+		//设置标题，商品名 规格值1 规格值2
+		String title = goods.getGoods().getGoodsName() + " ";
+		Map<String, Object> map = JSON.parseObject(item.getSpec());
+		for (String key : map.keySet()) {
+			title += map.get(key) + " ";
+		}
+		item.setTitle(title);
+
+		//设置图片
+		List<Map> images = JSON.parseArray(goods.getGoodsDesc().getItemImages(), Map.class);
+		if (images.size() > 0) {
+			String url = (String) images.get(0).get("url");
+			item.setImage(url);
+		}
+
+		//设置商品分类
+		Long categoryId = goods.getGoods().getCategory3Id();
+		item.setCategoryid(categoryId);
+		//设置商品分类名
+		TbItemCat tbItemCat = itemCatMapper.selectByPrimaryKey(categoryId);
+		item.setCategory(tbItemCat.getName());
+
+		//创建时间/更新时间
+		item.setCreateTime(new Date());
+		item.setUpdateTime(new Date());
+
+		//商品ID
+		Long brandId = goods.getGoods().getId();
+		item.setGoodsId(brandId);
+		//设置商品名
+		item.setBrand(goods.getGoods().getGoodsName());
+
+		//销售商ID
+		String sellerId = goods.getGoods().getSellerId();
+		item.setSellerId(sellerId);
+		//商家名
+		TbSeller tbSeller = sellerMapper.selectByPrimaryKey(sellerId);
+		item.setSeller(tbSeller.getNickName());
 	}
 
 	
