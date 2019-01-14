@@ -35,6 +35,8 @@ app.controller('goodsController' ,function($scope, $controller, $location, goods
                     //商品介绍
                     editor.html($scope.entity.goodsDesc.introduction);
                     $scope.entity.goodsDesc.itemImages = JSON.parse($scope.entity.goodsDesc.itemImages);
+                    // 扩展属性
+                    $scope.entity.goodsDesc.customAttributeItems = JSON.parse($scope.entity.goodsDesc.customAttributeItems);
                 }
             );
         }
@@ -137,7 +139,9 @@ app.controller('goodsController' ,function($scope, $controller, $location, goods
 		typeTemplateService.findOne(newValue).success(function (response) {
 			$scope.typeTemplate = response;
 			$scope.typeTemplate.brandIds = JSON.parse($scope.typeTemplate.brandIds);
-			$scope.entity.goodsDesc.customAttributeItems = JSON.parse($scope.typeTemplate.customAttributeItems)
+			if ($location.search()['id'] == null) {
+                $scope.entity.goodsDesc.customAttributeItems = JSON.parse($scope.typeTemplate.customAttributeItems)
+            }
         })
 
 		typeTemplateService.findSpecList(newValue).success(function (response) {
