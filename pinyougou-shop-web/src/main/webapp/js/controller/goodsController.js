@@ -32,7 +32,9 @@ app.controller('goodsController' ,function($scope, $controller, $location, goods
             goodsService.findOne(id).success(
                 function(response){
                     $scope.entity= response;
+                    //商品介绍
                     editor.html($scope.entity.goodsDesc.introduction);
+                    $scope.entity.goodsDesc.itemImages = JSON.parse($scope.entity.goodsDesc.itemImages);
                 }
             );
         }
