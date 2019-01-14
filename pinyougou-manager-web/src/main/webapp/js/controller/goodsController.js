@@ -88,5 +88,15 @@ app.controller('goodsController' ,function($scope,$controller  ,goodsService, it
             }
         })
     }
-    
+
+    // 更新状态
+	$scope.updateStatus = function (status) {
+        goodsService.updateStatus($scope.selectIds, status).success(function (response) {
+			if (response.success) {
+				$scope.reloadList();
+			} else {
+				alert("失败")
+			}
+        })
+    }
 });	
