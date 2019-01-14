@@ -32,6 +32,7 @@ app.controller('goodsController' ,function($scope, $controller, $location, goods
             goodsService.findOne(id).success(
                 function(response){
                     $scope.entity= response;
+                    editor.html($scope.entity.goodsDesc.introduction);
                 }
             );
         }
