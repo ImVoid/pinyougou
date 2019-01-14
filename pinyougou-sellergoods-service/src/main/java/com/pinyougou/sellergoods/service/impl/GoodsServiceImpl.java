@@ -69,7 +69,14 @@ public class GoodsServiceImpl implements GoodsService {
 		TbGoodsDesc goodsDesc = goods.getGoodsDesc();
 		goodsDesc.setGoodsId(gd.getId());
 		goodsDescMapper.insert(goodsDesc);
+		saveItem(goods);
+	}
 
+	/**
+	 * 保存SKU
+	 * @param goods
+	 */
+	private void saveItem(Goods goods) {
 		//多个SKU
 		if ("1".equals(goods.getGoods().getIsEnableSpec())) {
 			for (TbItem item : goods.getItemList()) {
@@ -133,8 +140,16 @@ public class GoodsServiceImpl implements GoodsService {
 	 * 修改
 	 */
 	@Override
-	public void update(TbGoods goods) {
-		goodsMapper.updateByPrimaryKey(goods);
+	public void update(Goods goods) {
+		//更新商品基础信息
+		goodsMapper.updateByPrimaryKey(goods.getGoods());
+		//更新商品扩展信息
+		goodsDescMapper.updateByPrimaryKey(goods.getGoodsDesc());
+		//删除更新SKU
+		for (TbItem item : goods.getItemList()) {
+			itemMapper.deleteByPrimaryKey(item.getId());
+		}
+		saveItem(goods);
 	}
 
 	/**

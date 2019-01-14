@@ -48,21 +48,24 @@ app.controller('goodsController' ,function($scope, $controller, $location, goods
         }
 	}
 	
-	//保存 
-	$scope.add=function(){
+	//保存&更新
+	$scope.save=function(){
         $scope.entity.goodsDesc.introduction = editor.html();
-        goodsService.add( $scope.entity  ).success(
-			function(response){
-				if(response.success){
-                    alert("新增成功");
-                    $scope.entity = {};
-                    //清空富文本编辑器
-                    editor.html("");
-				}else{
-					alert(response.message);
-				}
-			}		
-		);				
+        
+        var serviceObject;
+        if ($scope.entity.goods.id != null) {
+            serviceObject = goodsService.update($scope.entity);
+		} else {
+            serviceObject = goodsService.add($scope.entity);
+		}
+		serviceObject.success(function (response) {
+            if (response.success) {
+            	alert("操作成功")
+                location.href = 'goods.html';
+			} else {
+                alert(response.message);
+			}
+        })
 	}
 
 	//批量删除 
