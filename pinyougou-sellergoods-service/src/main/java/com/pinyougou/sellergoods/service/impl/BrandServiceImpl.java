@@ -10,6 +10,7 @@ import com.pinyougou.sellergoods.service.BrandService;
 import entity.PageResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import java.util.Map;
  * @version 2018/11/8
  */
 @Service
+@Transactional
 public class BrandServiceImpl implements BrandService {
 
 	@Autowired
