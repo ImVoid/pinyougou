@@ -214,7 +214,7 @@
                                 <div class="col-md-2 title">{{pojo.text}}</div>
                                 <div class="col-md-10 data">
                                     <span ng-repeat="option in pojo.options">
-                                        <input ng-click="updateSpecAttribute($event, pojo.text, option.optionName); createItemList()"
+                                        <input ng-checked="checkAttributeValue(pojo.text, option.optionName)" ng-click="updateSpecAttribute($event, pojo.text, option.optionName); createItemList()"
                                                type="checkbox">{{option.optionName}}
                                     </span>
                                 </div>

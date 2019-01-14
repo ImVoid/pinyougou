@@ -37,6 +37,8 @@ app.controller('goodsController' ,function($scope, $controller, $location, goods
                     $scope.entity.goodsDesc.itemImages = JSON.parse($scope.entity.goodsDesc.itemImages);
                     // 扩展属性
                     $scope.entity.goodsDesc.customAttributeItems = JSON.parse($scope.entity.goodsDesc.customAttributeItems);
+                    // 规格选择
+                    $scope.entity.goodsDesc.specificationItems = JSON.parse($scope.entity.goodsDesc.specificationItems);
                 }
             );
         }
@@ -210,5 +212,20 @@ app.controller('goodsController' ,function($scope, $controller, $location, goods
                 $scope.itemCatList[response[i].id] = response[i].name;
             }
         })
+    }
+
+    $scope.checkAttributeValue = function (specName, optionName) {
+		var specItems = $scope.entity.goodsDesc.specificationItems;
+        var object = $scope.searchObjectByKey(specItems, 'attributeName', specName);
+
+        if (object != null) {
+        	if (object.attributeValue.indexOf(optionName) >= 0) {
+        		return true;
+			} else {
+        		return false;
+			}
+		} else {
+        	return null;
+		}
     }
 });
