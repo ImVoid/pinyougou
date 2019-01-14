@@ -235,4 +235,17 @@ app.controller('goodsController' ,function($scope, $controller, $location, goods
         	return null;
 		}
     }
+
+    $scope.marketable = ['下架', '上架']
+    // 更新上下架状态
+	$scope.updateMarketable = function (marketable) {
+        goodsService.updateMarketable($scope.selectIds, marketable).success(function (response) {
+			if (response.success) {
+				$scope.reloadList();
+                $scope.selectIds = [];
+			} else {
+                alert(response.message);
+			}
+        })
+    }
 });

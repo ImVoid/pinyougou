@@ -65,6 +65,7 @@ public class GoodsServiceImpl implements GoodsService {
 	public void add(Goods goods) {
 		TbGoods gd = goods.getGoods();
 		gd.setAuditStatus("0");
+		gd.setIsMarketable("0");
 		goodsMapper.insert(gd);
 		TbGoodsDesc goodsDesc = goods.getGoodsDesc();
 		goodsDesc.setGoodsId(gd.getId());
@@ -239,6 +240,15 @@ public class GoodsServiceImpl implements GoodsService {
 		for (Long id : ids) {
 			TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
 			tbGoods.setAuditStatus(status);
+			goodsMapper.updateByPrimaryKey(tbGoods);
+		}
+	}
+
+	@Override
+	public void updateMarketable(Long[] ids, String marketable) {
+		for (Long id : ids) {
+			TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
+			tbGoods.setIsMarketable(marketable);
 			goodsMapper.updateByPrimaryKey(tbGoods);
 		}
 	}

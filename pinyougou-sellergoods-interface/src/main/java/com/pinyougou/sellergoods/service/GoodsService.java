@@ -65,5 +65,12 @@ public interface GoodsService {
 	 * @param status
 	 */
 	void updateStatus(Long[] ids, String status);
+
+	/**
+	 * 更新商品上下架
+	 * @param ids
+	 * @param marketable
+	 */
+	void updateMarketable(Long[] ids, String marketable);
 	
 }

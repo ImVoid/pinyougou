@@ -94,6 +94,7 @@ app.controller('goodsController' ,function($scope,$controller  ,goodsService, it
         goodsService.updateStatus($scope.selectIds, status).success(function (response) {
 			if (response.success) {
 				$scope.reloadList();
+                $scope.selectIds = [];
 			} else {
 				alert("失败")
 			}
