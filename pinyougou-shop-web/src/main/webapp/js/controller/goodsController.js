@@ -39,6 +39,10 @@ app.controller('goodsController' ,function($scope, $controller, $location, goods
                     $scope.entity.goodsDesc.customAttributeItems = JSON.parse($scope.entity.goodsDesc.customAttributeItems);
                     // 规格选择
                     $scope.entity.goodsDesc.specificationItems = JSON.parse($scope.entity.goodsDesc.specificationItems);
+                    // sku转化
+					for (var i = 0; i < $scope.entity.itemList.length; i++) {
+						$scope.entity.itemList[i].spec = JSON.parse($scope.entity.itemList[i].spec);
+					}
                 }
             );
         }
